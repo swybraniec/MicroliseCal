@@ -157,13 +157,23 @@ namespace MicroliseCal
 
         private void ShowMonthsAppointments(int monthNumber)
         {
+            ClearCalendar();
             List<Appointment> appts = _bookedAppointments.GetMonthsAppointments(monthNumber);
             foreach(Appointment appt in appts)
             {
-                StackPanel dayViewToUpdate = _daysInMonth[appt.AppointmentDayNumber];
+                StackPanel dayViewToUpdate = _daysInMonth[appt.AppointmentDayNumber-1];
                 TextBlock txt = (TextBlock)dayViewToUpdate.Children[1];
-                string displayString = string.Format("{0} \n {1}", appt.Summary, appt.Location);
+                string displayString = string.Format("{0}\n{1}", appt.Summary, appt.Location);
                 txt.Text = displayString;
+            }
+        }
+
+        private void ClearCalendar()
+        {
+            foreach(StackPanel day in _daysInMonth)
+            {
+                TextBlock txt = (TextBlock)day.Children[1];
+                txt.Text = "";
             }
         }
 
@@ -175,6 +185,22 @@ namespace MicroliseCal
             NewAppointmentDlg newApptDlg = new NewAppointmentDlg();
             newApptDlg.SetParentWindow(this);
             newApptDlg.Show();
+        }
+
+        private void btnShowNextMonth_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentMonthDisplay < 12)
+                _currentMonthDisplay++;
+            txtMonthName.Text = GetMonthName(_currentMonthDisplay);
+            ShowMonthsAppointments(_currentMonthDisplay);
+        }
+
+        private void btnPrevNextMonth_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentMonthDisplay > 1)
+                _currentMonthDisplay--;
+            txtMonthName.Text = GetMonthName(_currentMonthDisplay);
+            ShowMonthsAppointments(_currentMonthDisplay);
         }
 
         #endregion Event Handlers

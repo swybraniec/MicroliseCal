@@ -34,9 +34,9 @@
                     Orientation="Horizontal">
             <Button Name="btnNewAppt" Content="New Appointment" 
                     Click="btnNewAppt_Click"/>
-            <Button Name="btnPrevMonth" Content="Previous Month"/>
+            <Button Name="btnPrevMonth" Content="Previous Month" Click="btnPrevNextMonth_Click"/>
             <TextBlock Name="txtMonthName" Text="Month Name" VerticalAlignment="Center" Padding="10"/>
-            <Button Name="btnNextMonth" Content="Next Month"/>
+            <Button Name="btnNextMonth" Content="Next Month" Click="btnShowNextMonth_Click"/>
         </StackPanel>
     </Grid>
 </Window>
