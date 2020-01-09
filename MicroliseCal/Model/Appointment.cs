@@ -49,6 +49,41 @@ namespace MicroliseCal.Model
             {
                 return _summary;
             }
+            set
+            {
+                _summary = value;
+            }
+        }
+
+        public string Location
+        {
+            set
+            {
+                Location loc = new Location();
+                loc.LocationString = value;
+                _location = loc;
+            }
+
+            get
+            {
+                return _location.LocationString;
+            }
+        }
+
+        public DateTime StartDate
+        {
+            set
+            {
+                _start = value;
+            }
+        }
+
+        public DateTime EndDate
+        {
+            set
+            {
+                _end = value;
+            }
         }
 
         #endregion Properties

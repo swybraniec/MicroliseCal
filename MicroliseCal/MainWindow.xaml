@@ -32,7 +32,8 @@
         <!-- Menu bar for navigation through the days in the month. -->
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" 
                     Orientation="Horizontal">
-            <Button Name="btnNewAppt" Content="New Appointment" />
+            <Button Name="btnNewAppt" Content="New Appointment" 
+                    Click="btnNewAppt_Click"/>
             <Button Name="btnPrevMonth" Content="Previous Month"/>
             <TextBlock Name="txtMonthName" Text="Month Name" VerticalAlignment="Center" Padding="10"/>
             <Button Name="btnNextMonth" Content="Next Month"/>

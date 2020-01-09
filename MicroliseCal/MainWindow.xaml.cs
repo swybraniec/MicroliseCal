@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MicroliseCal.Model;
+using MicroliseCal.UserControls;
 
 namespace MicroliseCal
 {
@@ -65,10 +66,26 @@ namespace MicroliseCal
             // Initialise the calendar by getting the current month and displaying all the appointments.
             _currentMonthDisplay = DateTime.Now.Month;
             txtMonthName.Text = GetMonthName(_currentMonthDisplay);
-            PopulateMonthsAppointments(_currentMonthDisplay);
+            ShowMonthsAppointments(_currentMonthDisplay);
         }
 
         #endregion Constructors
+
+        #region Operations
+
+        public void SaveAppointmentDetails(string summary, string location, DateTime startDate, DateTime endDate)
+        {
+            Appointment newAppt = new Appointment();
+            Location loc = new Location();
+            newAppt.Summary = summary;
+            newAppt.Location = location;
+            newAppt.StartDate = startDate;
+            newAppt.EndDate = endDate;
+            _bookedAppointments.AddNewAppointment(newAppt);
+            ShowMonthsAppointments(_currentMonthDisplay);
+        }
+
+        #endregion Operations
 
         #region Helper methods
 
@@ -138,21 +155,28 @@ namespace MicroliseCal
             return monthName;
         }
 
-        private void PopulateMonthsAppointments(int monthNumber)
+        private void ShowMonthsAppointments(int monthNumber)
         {
             List<Appointment> appts = _bookedAppointments.GetMonthsAppointments(monthNumber);
             foreach(Appointment appt in appts)
             {
                 StackPanel dayViewToUpdate = _daysInMonth[appt.AppointmentDayNumber];
-                object viewToUpdate = dayViewToUpdate.FindName("txtApptDetails");
-                if(viewToUpdate is TextBlock)
-                {
-                    TextBlock update = viewToUpdate as TextBlock;
-                    update.Text = appt.Summary;
-                }
+                TextBlock txt = (TextBlock)dayViewToUpdate.Children[1];
+                string displayString = string.Format("{0} \n {1}", appt.Summary, appt.Location);
+                txt.Text = displayString;
             }
         }
 
         #endregion Helper methods
+
+        #region Event Handlers
+        private void btnNewAppt_Click(object sender, RoutedEventArgs e)
+        {
+            NewAppointmentDlg newApptDlg = new NewAppointmentDlg();
+            newApptDlg.SetParentWindow(this);
+            newApptDlg.Show();
+        }
+
+        #endregion Event Handlers
     }
 }
